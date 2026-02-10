@@ -11,7 +11,7 @@ async function startCamera() {
     try {
         stream = await navigator.mediaDevices.getUserMedia({
             video: {
-                facingMode: "user"
+                facingMode: 'user'
             },
             audio: false
         });
@@ -23,7 +23,7 @@ async function startCamera() {
     }
 }
 
-async function stopCamera() {
+function stopCamera() {
     try {
         stream.getTracks().forEach(track => track.stop());
         stream = null;
@@ -40,13 +40,41 @@ function capturePicture() {
 
     const ctx = canvas.getContext('2d');
     ctx.drawImage(video, 0, 0);
+
+    uploadPhoto();
 }
 
 function removePicture() {
+    const ctx = canvas.getContext('2d');
+    ctx.fillRect(0, 0, 1500, 1500);
     canvas.hidden = true;
 
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(null, 0, 0);
+    fetch('delete.php', {
+        method: 'POST'
+    });
+}
+
+function uploadPhoto() {
+    canvas.toBlob(blob => {
+        const formData = new FormData();
+        formData.append('photo', blob, 'photo.jpg');
+
+        fetch('upload.php', {
+            method: 'POST',
+            body: formData
+        }).then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Saved as: ' + data.filename);
+            } else {
+                alert('Upload failed');
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert('Upload error');
+        });
+    }, "image/jpeg", 0.9);
 }
 
 startBtn.addEventListener('click', startCamera);
