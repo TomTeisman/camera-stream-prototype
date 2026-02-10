@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <h1>Camera preview</h1>
+    <video id="camera-display" autoplay playsinline></video>
+    <canvas id="snapshot" hidden></canvas>
+    
+    <div>
+        <div>
+            <button id="start">Start camera</button>
+            <button id="stop">Stop camera</button>
+        </div>
+        <div>
+            <button id="capture">Take photo</button>
+            <button id="remove">Remove photo</button>
+        </div>
+    </div>
+
+    <script src="js/camera.js"></script>
+</body>
+</html>
