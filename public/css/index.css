@@ -19,4 +19,5 @@ button {
     cursor: pointer;
     border-radius: 4px;
     border: 2px solid #efefef;
+    background-color: #efefef;
 }
